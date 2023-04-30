@@ -25,7 +25,7 @@ uint32_t read_value(void){
 }
 
 
-uint32_t temp_from_value(uint32_t value){
+uint32_t linear_correction(uint32_t value){
   uint32_t temperature;
   if (value <= TEMP_T0){
     temperature = TEMP_A0*value + TEMP_B0;
@@ -58,7 +58,6 @@ uint32_t read_temperature(void){
   temp_reset();
   temp_trigger();
   temp_block();
-  uint32_t temp_value = read_value();
-  uint32_t temperature = temp_from_value(temp_value);
-  return temp_value;
+  uint32_t temperature = read_value();
+  return temperature;
 }
