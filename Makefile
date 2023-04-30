@@ -1,6 +1,6 @@
 
 XCC = arm-none-eabi-gcc
-CFLAGS = -mcpu=cortex-m4 -mthumb -c -g -Wall
+CFLAGS = -mcpu=cortex-m4 -mthumb -c -g -Wall -nostdlib -lgcc
 LD = arm-none-eabi-ld
 LDFLAGS = 
 LSCRIPT = src/nRF52833.ld
@@ -13,7 +13,7 @@ app.hex: app.elf
 	$(OBJCOPY) app.elf app.hex
 
 app.elf: $(LSCRIPT) startup.o main.o serial.o temp.o clock.o temp_monitor.o utils.o
-	$(LD) $(LDFLAGS) -T $(LSCRIPT) -o app.elf startup.o main.o serial.o temp.o clock.o temp_monitor.o utils.o
+	$(LD) $(LDFLAGS) -T $(LSCRIPT) -o app.elf startup.o main.o serial.o temp.o clock.o temp_monitor.o utils.o 
 
 
 startup.o: src/startup.c

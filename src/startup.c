@@ -1,5 +1,6 @@
 
-#include "hardware.h"
+#include "clock.h"
+#include "nvmc.h"
 #include "macros.h"
 
 
@@ -7,9 +8,11 @@
 void main(void);
 
 void default_start(void){
+    hardware_init();
     main();
     while (1) pause();
 }
+
 
 /* memory management functions */
 void* memcpy(void* dest, const void* src, unsigned n){
@@ -54,6 +57,27 @@ int memcmp(const void* pp, const void* qq, int n){
     return 0;
 }
 
+
+/* initialization functions */
+void clock_init(void){
+    CLOCK_HFCLKSTARTED = 0;
+    CLOCK_HFCLKSTART = 1;
+    while (!CLOCK_HFCLKSTARTED){}
+    return;
+}
+
+void cache_init(void){
+    SET_BIT(NVMC_ICACHECONF, NVMC_ICACHECONF_CACHEEN);
+    return;
+}
+
+void hardware_init(void){
+    clock_init();
+    cache_init();
+    return;
+}
+
+
 /* memory addresses from linker script */
 extern unsigned char _text_end[];
 extern unsigned char _xram_start[];
@@ -67,12 +91,6 @@ extern unsigned char _stack[];
 
 /* entry point */
 void _reset(void){
-    CLOCK_HFCLKSTARTED = 0;
-    CLOCK_HFCLKSTART = 1;
-    while (!CLOCK_HFCLKSTARTED){}
-
-    SET_BIT(NVMC_ICACHECONF, NVMC_ICACHECONF_CACHEEN);
-
     int xram_size = _xram_end - _xram_start;
     int data_size = _data_end - _data_start;
     int bss_size = _bss_end - _bss_start;
@@ -83,7 +101,7 @@ void _reset(void){
     default_start();
 }
 
-/* INTERRUPT VECTORS */
+/* interrupt vectors */
 void default_handler(void){
     while (1){}
 }

@@ -108,12 +108,16 @@ int buffer_size(const char buff[]){
 }
 
 
-void int32_to_char(uint32_t integer, char buff[4]){
+void int32_to_char(uint32_t integer, char buff[5]){
   uint32_t val = integer;
-  buff[0] = val;
-  buff[1] = val >> 8;
-  buff[2] = val >> 16;
-  buff[3] = val >> 24;
+  const char hex[] = "0123456789abcdef";
+  buff[4] = '\0';
+  int i = 3;
+  do {
+    buff[i] = hex[val%10];
+    val = val/10;
+    i--;
+  } while (i >= 0);
   return;
 }
 
@@ -181,7 +185,7 @@ void serial_write_str(const char buff[]){
 
 
 void serial_write_int(uint32_t integer){
-  char buff[4];
+  char buff[5];
   int32_to_char(integer, buff);
   serial_write_str(buff);
   return;
@@ -223,6 +227,7 @@ void serial_input(char buff[10]){
     buff[i] = *rx_buff;
     i++;
   }
+  serial_flush();
   return;
 }
 

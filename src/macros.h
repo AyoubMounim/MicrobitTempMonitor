@@ -27,7 +27,8 @@
 #define __BIT(pos) pos
 #define __FIELD(pos, wd) pos, wd
 
-
+/* assembly macros */
 #define nop() asm volatile ("nop")
+#define pause() asm volatile ("wfe")
 
 #endif

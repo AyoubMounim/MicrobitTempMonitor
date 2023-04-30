@@ -21,12 +21,36 @@ void temp_block(void){
 
 
 uint32_t read_value(void){
-  return TEMP_VALUE;
+  return TEMP_VALUE/4;
 }
 
 
 uint32_t temp_from_value(uint32_t value){
-  return value;
+  uint32_t temperature;
+  if (value <= TEMP_T0){
+    temperature = TEMP_A0*value + TEMP_B0;
+    return temperature;
+  }
+  else if (value <= TEMP_T1){
+    temperature = TEMP_A1*value + TEMP_B1;
+    return temperature;
+  }
+  else if (value <= TEMP_T2){
+    temperature = TEMP_A2*value + TEMP_B2;
+    return temperature;
+  }
+  else if (value <= TEMP_T3){
+    temperature = TEMP_A3*value + TEMP_B3;
+    return temperature;
+  }
+  else if (value <= TEMP_T4){
+    temperature = TEMP_A4*value + TEMP_B4;
+    return temperature;
+  }
+  else {
+    temperature = TEMP_A5*value + TEMP_B5;
+    return temperature;
+  }
 }
 
 
@@ -36,5 +60,5 @@ uint32_t read_temperature(void){
   temp_block();
   uint32_t temp_value = read_value();
   uint32_t temperature = temp_from_value(temp_value);
-  return temperature;
+  return temp_value;
 }
