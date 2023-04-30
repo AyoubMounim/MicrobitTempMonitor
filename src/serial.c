@@ -142,7 +142,7 @@ void rx_block(){
 
 
 void rx_stop(){
-  UARTE0_STARTRX = 1;
+  UARTE0_STOPRX = 1;
   return;
 }
 
@@ -193,6 +193,13 @@ void serial_get_char(char* ch){
   rx_read(ch);
   rx_block();
   rx_stop();
+  return;
+}
+
+
+void serial_listen_char(char* ch){
+  rx_reset();
+  rx_read(ch);
   return;
 }
 
