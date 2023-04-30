@@ -4,6 +4,7 @@
 #include "serial.h"
 #include "temp_sensor.h"
 #include "devpins.h"
+#include "temperature_monitor.h"
 
 
 void delay_loop(unsigned usec){
@@ -47,12 +48,15 @@ void main(void){
     serial_init();
     blink(5);
     const char dbg[] = "fino a qui tutto bene\n\r";
-    const char title[] = "Testing serial input\n\r";
-    const char message[] = "Please input a word\n\r";
-    const char new_line[] = "\n\r";
+    const char title[] = "Testing temperature application\n\r";
     serial_write_str(title);
-    char input[10];
 
+    struct Monitor monitor;
+    monitor_run(&monitor);
+
+    const char message[] = "Please input a word\n\r";
+    char input[10];
+    const char new_line[] = "\n\r";
     while (1){
         serial_write_str(message);
         serial_input(input);

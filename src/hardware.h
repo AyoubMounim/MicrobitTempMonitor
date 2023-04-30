@@ -52,6 +52,5 @@ typedef struct {
 
 /* assembly macros */
 #define pause() asm volatile ("wfe")
-#define nop() asm volatile ("nop")
 
 #endif

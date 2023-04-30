@@ -4,8 +4,6 @@
 #include "macros.h"
 
 
-
-
 void set_baudrate(enum Baudrate bdrate){
   UARTE0_BAUDRATE = bdrate;
   return;
@@ -218,5 +216,12 @@ void serial_input(char buff[10]){
     buff[i] = *rx_buff;
     i++;
   }
+  return;
+}
+
+
+void serial_endl(){
+  const char newline[] = "\n\r";
+  serial_write_str(newline);
   return;
 }

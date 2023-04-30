@@ -27,4 +27,7 @@
 #define __BIT(pos) pos
 #define __FIELD(pos, wd) pos, wd
 
+
+#define nop() asm volatile ("nop")
+
 #endif

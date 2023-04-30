@@ -12,8 +12,9 @@ all: app.hex
 app.hex: app.elf
 	$(OBJCOPY) app.elf app.hex
 
-app.elf: $(LSCRIPT) startup.o main.o serial.o temp.o
-	$(LD) $(LDFLAGS) -T $(LSCRIPT) -o app.elf startup.o main.o serial.o temp.o
+app.elf: $(LSCRIPT) startup.o main.o serial.o temp.o clock.o temp_monitor.o utils.o
+	$(LD) $(LDFLAGS) -T $(LSCRIPT) -o app.elf startup.o main.o serial.o temp.o clock.o temp_monitor.o utils.o
+
 
 startup.o: src/startup.c
 	$(XCC) $(CFLAGS) -o startup.o src/startup.c
@@ -26,6 +27,15 @@ serial.o: src/serial.c
 
 temp.o: src/temp_sensor.c
 	$(XCC) $(CFLAGS) -o temp.o src/temp_sensor.c
+
+clock.o: src/clock.c
+	$(XCC) $(CFLAGS) -o clock.o src/clock.c
+
+temp_monitor.o: src/temperature_monitor.c
+	$(XCC) $(CFLAGS) -o temp_monitor.o src/temperature_monitor.c
+
+utils.o: src/utils.c
+	$(XCC) $(CFLAGS) -o utils.o src/utils.c
 
 clean: 
 	sudo rm *.o *.elf *.hex

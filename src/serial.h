@@ -76,6 +76,7 @@ void serial_write_str(const char buff[]);
 void serial_write_int(uint32_t integer);
 void serial_input(char buff[10]);
 void serial_get_char(char* ch);
+void serial_endl();
 void serial_flush();
 
 void set_baudrate(enum Baudrate bdrate);
