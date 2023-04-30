@@ -25,10 +25,16 @@ uint32_t read_value(void){
 }
 
 
+uint32_t temp_from_value(uint32_t value){
+  return value;
+}
+
+
 uint32_t read_temperature(void){
   temp_reset();
   temp_trigger();
   temp_block();
   uint32_t temp_value = read_value();
-  return temp_value;
+  uint32_t temperature = temp_from_value(temp_value);
+  return temperature;
 }
