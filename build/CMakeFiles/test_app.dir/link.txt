@@ -1,1 +1,0 @@
-arm-none-eabi-gcc  -nostdlib -nostartfiles -g -Wall -mcpu=cortex-m4 -mthumb -T  CMakeFiles/test_app.dir/src/startup.c.obj CMakeFiles/test_app.dir/src/main.c.obj CMakeFiles/test_app.dir/src/serial.c.obj CMakeFiles/test_app.dir/src/temp_sensor.c.obj -o test_app.elf 
