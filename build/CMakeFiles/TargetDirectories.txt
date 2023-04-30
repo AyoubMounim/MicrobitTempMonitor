@@ -1,0 +1,3 @@
+/home/ayoub/embed_projects/micro_bit_c/hello_world_v2/build/CMakeFiles/test_app.dir
+/home/ayoub/embed_projects/micro_bit_c/hello_world_v2/build/CMakeFiles/edit_cache.dir
+/home/ayoub/embed_projects/micro_bit_c/hello_world_v2/build/CMakeFiles/rebuild_cache.dir
