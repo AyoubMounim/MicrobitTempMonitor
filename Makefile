@@ -23,7 +23,7 @@ app.hex: app.elf
 	$(OBJCOPY) $^ $(BUILDDIR)/$@
 
 app.elf: $(OBJLIST)
-	$(LD) $(LDFLAGS) -o $(BUILDDIR)/$@ $^
+	$(LD) $(LDFLAGS) -o $(BUILDDIR)/$@ $(BUILDDIR)/$(OBJLIST)
 
 $(OBJLIST): src/$(subst .o,.c,$@)
 	$(XCC) $(CFLAGS) -o $(BUILDDIR)/$@ src/$(subst .o,.c,$@)
