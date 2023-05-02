@@ -11,7 +11,7 @@ typedef enum {
 } State;
 
 
-typedef struct Monitor {
+struct Monitor {
   State current_state;
 };
 

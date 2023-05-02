@@ -2,8 +2,8 @@
 XCC = arm-none-eabi-gcc
 CFLAGS = -mcpu=cortex-m4 -mthumb -c -g -Wall -nostdlib -lgcc
 LD = arm-none-eabi-ld
-LSCRIPT = src/nRF52833.ld
-LDFLAGS = -T $(LSCRIPT)
+LSCRIPT = nRF52833.ld
+LDFLAGS = -T ../$(SRCDIR)/$(LSCRIPT)
 OBJCOPY = arm-none-eabi-objcopy -O ihex
 
 SRCDIR = src
@@ -20,10 +20,10 @@ vpath %.hex $(BUILDDIR)
 all: app.hex
 
 app.hex: app.elf
-	$(OBJCOPY) $^ $(BUILDDIR)/$@
+	cd ./$(BUILDDIR) && $(OBJCOPY) $^ $@
 
 app.elf: $(OBJLIST)
-	$(LD) $(LDFLAGS) -o $(BUILDDIR)/$@ $(BUILDDIR)/$(OBJLIST)
+	cd ./$(BUILDDIR) && $(LD) $(LDFLAGS) -o $@ $(OBJLIST)
 
 $(OBJLIST): src/$(subst .o,.c,$@)
 	$(XCC) $(CFLAGS) -o $(BUILDDIR)/$@ src/$(subst .o,.c,$@)

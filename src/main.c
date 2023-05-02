@@ -7,7 +7,7 @@
 
 void main(void){
     serial_init();
-    const char dbg[] = "fino a qui tutto bene\n\r";
+    /* const char dbg[] = "fino a qui tutto bene\n\r"; */
 
     const char title[] = "Testing temperature application\n\r";
     serial_endl();

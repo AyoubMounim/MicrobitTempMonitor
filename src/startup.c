@@ -4,6 +4,25 @@
 #include "macros.h"
 
 
+/* initialization functions */
+void clock_init(void){
+    CLOCK_HFCLKSTARTED = 0;
+    CLOCK_HFCLKSTART = 1;
+    while (!CLOCK_HFCLKSTARTED){}
+    return;
+}
+
+void cache_init(void){
+    SET_BIT(NVMC_ICACHECONF, NVMC_ICACHECONF_CACHEEN);
+    return;
+}
+
+void hardware_init(void){
+    clock_init();
+    cache_init();
+    return;
+}
+
 /* jump to main */
 void main(void);
 
@@ -12,7 +31,6 @@ void default_start(void){
     main();
     while (1) pause();
 }
-
 
 /* memory management functions */
 void* memcpy(void* dest, const void* src, unsigned n){
@@ -56,27 +74,6 @@ int memcmp(const void* pp, const void* qq, int n){
     }
     return 0;
 }
-
-
-/* initialization functions */
-void clock_init(void){
-    CLOCK_HFCLKSTARTED = 0;
-    CLOCK_HFCLKSTART = 1;
-    while (!CLOCK_HFCLKSTARTED){}
-    return;
-}
-
-void cache_init(void){
-    SET_BIT(NVMC_ICACHECONF, NVMC_ICACHECONF_CACHEEN);
-    return;
-}
-
-void hardware_init(void){
-    clock_init();
-    cache_init();
-    return;
-}
-
 
 /* memory addresses from linker script */
 extern unsigned char _text_end[];
@@ -135,3 +132,4 @@ void* _vectors[] __attribute((section(".vectors"))) = {
     pendsv_handler,
     systick_handler
 };
+
