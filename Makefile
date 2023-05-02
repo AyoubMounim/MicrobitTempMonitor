@@ -40,3 +40,4 @@ $(OBJLIST): src/$(subst .o,.c,$@)
 
 clean: 
 	@$(RM) $(BUILDDIR)/*.o $(BUILDDIR)/*.elf $(BUILDDIR)/*.hex
+

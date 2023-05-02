@@ -214,7 +214,7 @@ void serial_flush(){
 }
 
 
-void serial_input(char buff[10]){
+void serial_input(char buff[NBUFF]){
   char rx_buff[1];
   int i = 0;
   while (1){

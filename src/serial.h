@@ -50,6 +50,8 @@
 #define UARTE0_TXDAMOUNNT _REG(unsigned, 0x4000254C)
 #define UARTE0_CONFIG _REG(unsigned, 0x4000256C)
 
+#define NBUFF 32
+
 
 enum Parity {
   PARITY_EVEN = 0,
