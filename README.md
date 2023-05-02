@@ -4,7 +4,7 @@
 The final executable of this repo is a simple temperature monitor that runs on
 the [micro:bit](https://microbit.org/) board. The source code for application was written entirely from scratch, and it is designed to run on the bare metal, meaning that the application can actually run on any [nRF52833](https://infocenter.nordicsemi.com/pdf/nRF52833_OPS_v0.7.pdf) SoC with minor adjustments (you only need
 to change the definition of the UARTE Tx an Rx pins found in "src/devpins.h").
-You can build the application by using the make command in the root directory,
+You can build the application by using running `make` command in the root directory,
 and you should find the app.hex file in the build folder.
 
 The monitor is controlled via serial input and it uses serial comunication for 
