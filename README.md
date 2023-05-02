@@ -11,6 +11,12 @@ the monitor outputs the temperature measured by the nRF52833's integrated temper
 sensor at regular time intervals (roughly once every 2 seconds). Once started you
 can stop the application by pressing the "c" character on your keyboard.
 
+The current implementation is a bit hacky and aloppy. There is much room for 
+improvement. For instance:
+* Interupt control implementation
+* Better implementation of the serial interface
+* Implementation of floating point calculations 
+
 ## References
 
 * [Spivey's Corner](https://spivey.oriel.ox.ac.uk/corner/Welcome_to_Spivey%27s_Corner)
