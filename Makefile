@@ -36,6 +36,7 @@ app.elf: $(OBJLIST)
 
 $(OBJLIST): src/$(subst .o,.c,$@)
 	@echo "$(COLOUR_BLUE)compiling object files...$(NO_COLOR)"
+	@mkdir -p $(BUILDDIR)
 	@$(XCC) $(CFLAGS) -o $(BUILDDIR)/$@ src/$(subst .o,.c,$@)
 
 clean: 
