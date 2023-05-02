@@ -2,8 +2,6 @@
 #ifndef TEMPERATURE_MONITOR
 #define TEMPERATURE_MONITOR
 
-#include <stdint.h>
-
 
 typedef enum {
   IDLE,

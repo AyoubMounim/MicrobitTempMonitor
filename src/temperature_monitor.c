@@ -1,4 +1,5 @@
 
+#include <stdint.h>
 #include "temperature_monitor.h"
 #include "serial.h"
 #include "clock.h"
