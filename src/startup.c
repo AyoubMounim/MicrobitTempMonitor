@@ -42,37 +42,12 @@ void* memcpy(void* dest, const void* src, unsigned n){
     return dest;
 }
 
-void* memmove(void* dest, const void* src, unsigned n){
-    unsigned char* p = dest;
-    const unsigned char* q = src;
-    if (dest <= src){
-        while (n-- > 0){*p++ = *q++;}
-    }
-    else {
-        p += n;
-        q += n;
-        while (n-- > 0){*--p = *--q;}
-    }
-    return dest;
-}
-
 void* memset(void* dest, unsigned x, unsigned n){
     unsigned char *p = dest;
     while (n-- > 0){
         *p++ = x;
     }
     return dest;
-}
-
-int memcmp(const void* pp, const void* qq, int n){
-    const unsigned char* p = pp;
-    const unsigned char* q = qq;
-    while (n-- > 0){
-        if (*p++ != *q++){
-            return (p[-1] < q[-1] ? -1 : 1);
-        }
-    }
-    return 0;
 }
 
 /* memory addresses from linker script */
