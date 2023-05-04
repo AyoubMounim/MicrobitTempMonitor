@@ -81,14 +81,14 @@ void tx_reset(){
 }
 
 
-void set_buff_size(int size){
+void set_buff_size(uint32_t size){
   UARTE0_TXDMAXCNT = size;
   return;
 }
 
 
-void write_buffer(const char buff[]){
-  UARTE0_TXD = (unsigned) &(buff[0]);
+void write_str(const char* str){
+  UARTE0_TXD = (uint32_t) str;
   return;
 }
 
@@ -99,25 +99,32 @@ void serial_block(){
 }
 
 
-int buffer_size(const char buff[]){
-  int len = 0;
-  while (buff[len] != 0){
+uint32_t str_size(const char* str){
+  uint32_t len = 0;
+  while (*(str + len) != '\0'){
     len++;
   }
   return len;
 }
 
 
-void int32_to_char(uint32_t integer, char buff[5]){
-  uint32_t val = integer;
-  const char hex[] = "0123456789abcdef";
-  buff[4] = '\0';
-  int i = 3;
+void int32_to_char(uint32_t integer, char* str){
+  const char dec[] = "0123456789";
+  char* rev_str = "0";
+  int i = 0;
   do {
-    buff[i] = hex[val%10];
-    val = val/10;
+    *(rev_str + i) = dec[integer%10];
+    integer /= 10;
+    i++;
+  } while (integer > 0);
+
+  *(str + i) = '\0';
+  int j = 0;
+  while (i > 0){
     i--;
-  } while (i >= 0);
+    *(str + i) = *(rev_str + j);
+    j++;
+  }
   return;
 }
 
@@ -165,19 +172,18 @@ void serial_init(){
 void serial_write_ch(const char* ch){
   tx_reset();
   set_buff_size(1);
-  const char buff[] = {*ch};
-  write_buffer(buff);
+  write_str(ch);
   trigger_tx();
   serial_block();
   return;
 }
 
 
-void serial_write_str(const char buff[]){
+void serial_write_str(const char* str){
   tx_reset();
-  int buff_size = buffer_size(buff);
+  uint32_t buff_size = str_size(str);
   set_buff_size(buff_size);
-  write_buffer(buff);
+  write_str(str);
   trigger_tx();
   serial_block();
   return;
@@ -185,9 +191,9 @@ void serial_write_str(const char buff[]){
 
 
 void serial_write_int(uint32_t integer){
-  char buff[5];
-  int32_to_char(integer, buff);
-  serial_write_str(buff);
+  char* int_str = "0";
+  int32_to_char(integer, int_str);
+  serial_write_str(int_str);
   return;
 }
 
@@ -214,26 +220,27 @@ void serial_flush(){
 }
 
 
-void serial_input(char buff[NBUFF]){
+void serial_input(char* input){
   char rx_buff[1];
   int i = 0;
-  while (1){
+  while (i < MAX_INPUT_LEN){
     serial_get_char(rx_buff);
     if (*rx_buff == '\r'){
-      buff[i] = '\0';
+      *(input + i) = '\0';
+      /* serial_flush(); */
       return;
     }
     serial_write_ch(rx_buff);
-    buff[i] = *rx_buff;
+    *(input + i) = *rx_buff;
     i++;
   }
-  serial_flush();
   return;
 }
 
 
 void serial_endl(){
-  const char newline[] = "\n\r";
+  const char* newline = "\n\r";
   serial_write_str(newline);
   return;
 }
+

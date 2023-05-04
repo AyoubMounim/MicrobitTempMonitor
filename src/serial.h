@@ -50,7 +50,7 @@
 #define UARTE0_TXDAMOUNNT _REG(uint32_t, 0x4000254C)
 #define UARTE0_CONFIG _REG(uint32_t, 0x4000256C)
 
-#define NBUFF 32
+#define MAX_INPUT_LEN 32
 
 
 enum Parity {
@@ -74,10 +74,10 @@ enum HWFC {
 
 void serial_init(void);
 void serial_write_ch(const char* ch);
-void serial_write_str(const char buff[]);
+void serial_write_str(const char* str);
 void serial_write_int(uint32_t integer);
 
-void serial_input(char buff[10]);
+void serial_input(char* input);
 void serial_get_char(char* ch);
 void serial_listen_char(char* ch);
 void serial_endl();
@@ -88,3 +88,4 @@ void set_parity(enum Parity parity);
 void set_whfc(enum HWFC hwfc);
 
 #endif
+
