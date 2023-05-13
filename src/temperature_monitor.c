@@ -31,7 +31,7 @@ void handle_idle(struct Monitor* p_monitor){
 
 
 void handle_measure(struct Monitor* p_monitor){
-  char end_ch[1] = {'\0'};
+  char end_ch[] = "s";
   const char temperature_msg[] = "temperature: ";
   const char unit_msg[] = " C";
   serial_listen_char(end_ch);
@@ -50,11 +50,14 @@ void handle_measure(struct Monitor* p_monitor){
 
 
 void handle_state(struct Monitor* p_monitor){
+  char test[] = "ghfhgjfhjfg";
   switch (p_monitor->current_state){
     case IDLE:
+      serial_write_str(test);
       handle_idle(p_monitor);
       break;
     case MEASURE:
+      serial_write_str(test);
       handle_measure(p_monitor);
       break;
   }
