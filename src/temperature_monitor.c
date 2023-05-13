@@ -11,7 +11,8 @@ const char start_prompt[] = "start";
 
 
 void handle_idle(struct Monitor* p_monitor){
-  char* prompt = "0";
+  /* char* prompt = "0"; */
+  char prompt[10];
   const char idle_msg[] = "Insert prompt (start to begin)\n\r";
   const char wrong_prompt_msg[] = "prompt not found\n\r";
   serial_write_str(idle_msg);

@@ -183,7 +183,11 @@ void serial_write_str(const char* str){
   tx_reset();
   uint32_t buff_size = str_size(str);
   set_buff_size(buff_size);
-  write_str(str);
+  char str_array[buff_size];
+  for (int i=0; i<buff_size; i++){
+    str_array[i] = *(str + i);
+  }
+  write_str(str_array);
   trigger_tx();
   serial_block();
   return;
@@ -220,18 +224,21 @@ void serial_flush(){
 }
 
 
-void serial_input(char* input){
+void serial_input(char* input_array){
+  char* input;
   char rx_buff[1];
   int i = 0;
   while (i < MAX_INPUT_LEN){
     serial_get_char(rx_buff);
     if (*rx_buff == '\r'){
       *(input + i) = '\0';
+      input_array[i] = '\0';
       /* serial_flush(); */
       return;
     }
     serial_write_ch(rx_buff);
-    *(input + i) = *rx_buff;
+    *(input + i) = rx_buff[0];
+      input_array[i] = rx_buff[0];
     i++;
   }
   return;
@@ -243,4 +250,3 @@ void serial_endl(){
   serial_write_str(newline);
   return;
 }
-
