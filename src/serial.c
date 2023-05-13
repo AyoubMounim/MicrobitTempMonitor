@@ -246,7 +246,6 @@ void serial_input(char* input_array){
 
 
 void serial_endl(){
-  const char* newline = "\n\r";
-  serial_write_str(newline);
+  serial_write_str("\n\r");
   return;
 }

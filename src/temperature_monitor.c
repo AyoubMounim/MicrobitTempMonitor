@@ -50,14 +50,12 @@ void handle_measure(struct Monitor* p_monitor){
 
 
 void handle_state(struct Monitor* p_monitor){
-  char test[] = "ghfhgjfhjfg";
   switch (p_monitor->current_state){
     case IDLE:
-      serial_write_str(test);
+      serial_write_str("IDLE");
       handle_idle(p_monitor);
       break;
     case MEASURE:
-      serial_write_str(test);
       handle_measure(p_monitor);
       break;
   }
