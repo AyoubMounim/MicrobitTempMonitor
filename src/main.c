@@ -7,11 +7,8 @@
 
 void main(void){
     serial_init();
-    /* const char dbg[] = "fino a qui tutto bene\n\r"; */
-
-    const char title[] = "Testing temperature application\n\r";
     serial_endl();
-    serial_write_str(title);
+    serial_write_str("Testing temperature application\n\r");
 
     struct Monitor monitor;
     monitor_run(&monitor);

@@ -13,9 +13,7 @@ const char start_prompt[] = "start";
 void handle_idle(struct Monitor* p_monitor){
   /* char* prompt = "0"; */
   char prompt[10];
-  const char idle_msg[] = "Insert prompt (start to begin)\n\r";
-  const char wrong_prompt_msg[] = "prompt not found\n\r";
-  serial_write_str(idle_msg);
+  serial_write_str("Insert prompt (start to begin)\n\r");
   serial_input(prompt);
   serial_endl();
   if (cmp_string(prompt, start_prompt)){
@@ -23,7 +21,7 @@ void handle_idle(struct Monitor* p_monitor){
     serial_endl();
   }
   else {
-    serial_write_str(wrong_prompt_msg);
+    serial_write_str("prompt not found\n\r");
     serial_endl();
   }
   return;
@@ -52,10 +50,11 @@ void handle_measure(struct Monitor* p_monitor){
 void handle_state(struct Monitor* p_monitor){
   switch (p_monitor->current_state){
     case IDLE:
-      serial_write_str("IDLE");
+      serial_write_str("IDLE\n\r");
       handle_idle(p_monitor);
       break;
     case MEASURE:
+      serial_write_str("MEASURE\n\r");
       handle_measure(p_monitor);
       break;
   }
@@ -65,9 +64,8 @@ void handle_state(struct Monitor* p_monitor){
 
 void monitor_run(struct Monitor* p_monitor){
   p_monitor->current_state = IDLE;
-  const char welcome_msg[] = "Temperature Monitor\n\rUse 'start' to begin, 'c' to stop.\n\r";
   serial_endl();
-  serial_write_str(welcome_msg);
+  serial_write_str("Temperature Monitor\n\rUse 'start' to begin, 'c' to stop.\n\r");
   serial_endl();
   while (1){
       handle_state(p_monitor);
