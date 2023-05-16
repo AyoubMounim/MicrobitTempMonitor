@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Debug target set by configuration or environment variable
+: ${DBGTGT:=nrf52}
+
+case $1 in
+    *.elf)
+        file=$1
+        if ! [ -r $file ]; then
+            echo "debug: can't find $file" >&2; exit 1
+        fi;;
+    *) 
+        echo "Usage: debug file.elf" >&2; exit 1;;
+esac
+
+# Fedora uses GNU which, which outputs a message if the program is not found
+witch() {
+    which $1 2>/dev/null | grep -v "no $1"
+}
+
+# Try to find a likely-looking instance of GDB
+GDB=none
+for gdb in arm-none-eabi-gdb gdb-multiarch gdb-arm; do
+    if tmp=$(witch $gdb); then GDB=$tmp; break; fi
+done
+
+if [ $GDB = none ]; then
+    echo "debug: can't find a suitable gdb" >&2; exit 1
+fi
+
+echo "Using $GDB"
+
+# Kill previous instances of the debug server.  Fingers crossed!
+killall pyocd 2>/dev/null
+
+# Start up the debug server: use "set -m" to protect from interrupts
+set -m
+pyocd gdbserver -t $DBGTGT >/dev/null 2>&1 &
+server=$!
+
+# Don't exit on interrupt
+trap '' SIGINT
+
+# Kill the server on exit
+trap "kill $server 2>/dev/null; wait $server 2>/dev/null" EXIT
+
+# Wait for the server to initialise
+sleep 2
+
+# Start up gdb
+$GDB $file -ex 'target extended-remote :3333'
+
+exit 0

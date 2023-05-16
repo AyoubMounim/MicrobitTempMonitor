@@ -4,8 +4,8 @@
 
 
 typedef enum {
-  IDLE,
-  MEASURE,
+  IDLE = 0,
+  MEASURE = 1,
 } State;
 
 
