@@ -28,7 +28,7 @@ void handle_idle(struct Monitor* p_monitor){
 
 
 void handle_measure(struct Monitor* p_monitor){
-  char end_ch[] = "0";
+  char end_ch[1];
   serial_listen_char(end_ch);
   uint32_t temperature = read_temperature();
   serial_write_str("temperature: ");
