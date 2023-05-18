@@ -188,7 +188,7 @@ void serial_write_int(uint32_t integer, uint8_t base){
   uint8_t n_digits = number_of_digits(integer, base);
   char digits[n_digits+1];
   digits[n_digits] = '\0';
-  while (--n_digits >= 0){
+  while (n_digits-- > 0){
       digits[n_digits] = dec[integer%base];
       integer /= base;
   }

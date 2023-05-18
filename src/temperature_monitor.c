@@ -32,7 +32,7 @@ void handle_measure(struct Monitor* p_monitor){
   serial_listen_char(end_ch);
   uint32_t temperature = read_temperature();
   serial_write_str("temperature: ");
-  serial_write_int(temperature);
+  serial_write_int(temperature, 10);
   serial_write_str(" C");
   serial_endl();
   sleep(10);
