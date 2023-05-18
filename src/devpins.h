@@ -13,4 +13,8 @@
 #define USB_TX DEVPIN(0, 6)
 #define USB_RX DEVPIN(1, 8)
 
+#define BTN_A DEVPIN(0, 14)
+#define BTN_B DEVPIN(0, 23)
+
 #endif
+
