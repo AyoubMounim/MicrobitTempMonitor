@@ -31,7 +31,7 @@ void set_parity(enum Parity parity){
 }
 
 
-void set_whfc(enum HWFC hwfc){
+void set_hwfc(enum HWFC hwfc){
   SET_FIELD(UARTE0_CONFIG, 0, 1, hwfc);
   return;
 }
@@ -81,6 +81,15 @@ void tx_reset(){
 }
 
 
+void rx_reset(){
+  UARTE0_RXDRDY = 0;
+  UARTE0_RXTO = 0;
+  UARTE0_STARTRX = 0;
+  UARTE0_ENDRX = 0;
+  return;
+}
+
+
 void set_buff_size(uint32_t size){
   UARTE0_TXDMAXCNT = size;
   return;
@@ -108,39 +117,19 @@ uint32_t str_size(const char* str){
 }
 
 
-void int32_to_char(uint32_t integer, char* str){
-  const char dec[] = "0123456789";
-  char* rev_str = "0";
-  int i = 0;
+uint8_t number_of_digits(uint32_t integer, uint8_t base){
+  uint8_t n_digits = 0;
   do {
-    *(rev_str + i) = dec[integer%10];
-    integer /= 10;
-    i++;
+      n_digits++; 
+      integer /= base;
   } while (integer > 0);
-
-  *(str + i) = '\0';
-  int j = 0;
-  while (i > 0){
-    i--;
-    *(str + i) = *(rev_str + j);
-    j++;
-  }
-  return;
-}
-
-
-void rx_reset(){
-  UARTE0_RXDRDY = 0;
-  UARTE0_RXTO = 0;
-  UARTE0_STARTRX = 0;
-  UARTE0_ENDRX = 0;
-  return;
+  return n_digits;
 }
 
 
 void rx_read(char* ch){
   UARTE0_RXDMAXCNT = 1;
-  UARTE0_RXD = (unsigned) ch;
+  UARTE0_RXD = (uint32_t) ch;
   UARTE0_STARTRX = 1;
   return;
 }
@@ -194,10 +183,16 @@ void serial_write_str(const char* str){
 }
 
 
-void serial_write_int(uint32_t integer){
-  char* int_str = "0";
-  int32_to_char(integer, int_str);
-  serial_write_str(int_str);
+void serial_write_int(uint32_t integer, uint8_t base){
+  static const char dec[] = "0123456789ABCDEF";
+  uint8_t n_digits = number_of_digits(integer, base);
+  char digits[n_digits+1];
+  digits[n_digits] = '\0';
+  while (--n_digits >= 0){
+      digits[n_digits] = dec[integer%base];
+      integer /= base;
+  }
+  serial_write_str(digits);
   return;
 }
 
@@ -246,3 +241,4 @@ void serial_endl(){
   serial_write_str("\n\r");
   return;
 }
+

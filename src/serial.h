@@ -75,7 +75,7 @@ enum HWFC {
 void serial_init(void);
 void serial_write_ch(const char* ch);
 void serial_write_str(const char* str);
-void serial_write_int(uint32_t integer);
+void serial_write_int(uint32_t integer, uint8_t base);
 
 void serial_input(char* input);
 void serial_get_char(char* ch);
@@ -85,7 +85,7 @@ void serial_flush();
 
 void set_baudrate(enum Baudrate bdrate);
 void set_parity(enum Parity parity);
-void set_whfc(enum HWFC hwfc);
+void set_hwfc(enum HWFC hwfc);
 
 #endif
 
